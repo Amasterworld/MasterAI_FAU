@@ -1,0 +1,74 @@
+\documentclass{article}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\begin{document}
+
+Name: Thao, Nguyen Van.   Id: ic87adyh
+\section*{\textbf{I. Problem 1.4 (Problem 1.4 (Chained Production Elements))}}
+
+\subsection*{\textbf{1.0 The probability of the apparatus works when at least   AB ,  CD ,  or EF work }}
+
+From the given information,  we know that $ P(apparatus works)$ when A and B work,  or C and D work, or E and F work that mean $P(apparatus works) = P(AB \lor  CD \lor EF)$. From the problem 1.2 we know that: \\
+$ P(AB \lor  CD \lor EF) = P(AB) + P(CD) + P(EF) - P(AB \land CD) - P(AB \land EF) - P(BC \land EF) + P(AB \land CD \land EF) \quad (1)$
+
+	Since the events are stochastically independent, the probability that element X does not break down is $1 - P(bX)$. Therefore, the probability that A and B are operational is:
+\begin{align*}
+    P(AB) &= P(A) \times P(B) \\
+          &= (1-0.05) \times (1-0.1) \\
+          &= 0.855 \quad (2)
+\end{align*}
+Similarly, the probabilities that C and D, and E and F are operational are:
+\begin{align*}
+    P(CD) &= P(C) \times P(D) \\
+          &= (1-0.15) \times (1-0.2) \\
+          &= 0.68 \quad (3) \\
+    P(EF) &= P(E) \times P(F) \\
+          &= (1-0.25) \times (1-0.3) \\
+          &= 0.525 \quad (4)
+\end{align*}
+Substituting equations (2), (3), and (4) into equation (1), we have:
+	\begin{align*}
+    P(AB \lor  CD \lor EF) &= 0.855 + 0.68 + 0.525  - (0.855 \times 0.68 + 0.855   \times 0.525  + 0.68 \times 0.525 ) \\+  (0.855  \times 0.68  \times 0.525)   = 0.97796
+	\end{align*}
+	
+	Hence,  probability that the apparatus works is 97.796%
+	
+	\subsection*{\textbf{2.0 The probability of the apparatus works}}
+	Let's consider each pair of linked elements:
+	
+	Because  the second question does not explicitly provide the condition when the apparatus works, then I assume that the condition for apparatus working is like the first question (at least A and B are operational,  C and D are operational, or E and F are operational). But now A and C,  D and F and B and E are pairwise linked; such that if either of them breaks down, then the linked element is not operational either. 
+	
+	
+The apparatus works when A and B are operational,  A depending on C,  B depending on . Then if A, B, C,  and D are operational then the apparatus works:
+ 
+
+\begin{align*}
+P(A \land B \land C \land D ) = (1-0.05) \times (1-0.1) \times   (1-0.15) \times (1-0.25) = 0.545 \quad(5)
+ \end{align*}
+	
+Similarly,   we have: 
+	\begin{align*}
+		P(C \land D  \land A \land F ) = (1-0.15) \times (1-0.2) \times   (1-0.05) \times (1-0.3) = 0.452  \quad (6)		
+	 \end{align*}
+ 
+	 \begin{align*}
+		P(E \land F  \land B \land D ) = (1-0.25) \times (1-0.3) \times   (1-0.1) \times (1-0.2) = 0.378  \quad (7)
+	 \end{align*}
+	
+	The apparatus  work when (5), (6) or (7) is true,  then:
+	
+	\begin{align*}
+		P(ABCD \lor CDAF \lor EFBD ) &= P(ABCD) + P(CDAF) + P(EFBD)\\ 
+													  &- (P(ABCD \land CDAF) +  P(ABCD \land EFBD) + P(EFBD \land CDAF))  \\
+													 &+ P(ABCD \land CDAF \land EFBD) \quad (8)
+	 \end{align*}
+	
+	Substituting equations (5), (6), and (7) into equation (8), we have:
+	
+	\begin{align*}
+		P(ABCD \lor CDAF \lor EFBD ) &= 0.545 +  0.452 +  0.378\\ &- (0.545 \times 0.452  + 0.545 \times 0.378 + 0.452  \times  0.378)\\ &+ (0.545 \times 0.452 \times  0.378 )\\ &= 0.84491052
+	 \end{align*}
+	Hence,  the probability of the apparatus  that works in this scenario is 84,49\%
+\end{document}

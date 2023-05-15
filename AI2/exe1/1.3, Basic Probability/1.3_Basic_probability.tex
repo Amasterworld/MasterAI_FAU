@@ -1,0 +1,20 @@
+
+
+\documentclass{article}
+\usepackage{graphicx}
+\usepackage{float}
+\begin{document}
+
+Name: Thao, Nguyen Van.   Id: ic87adyh
+\section*{\textbf{I. Problem 1.3 (Basic Probability)}}
+
+\begin{enumerate}
+  \item $P(b)=P(a,b)+P( \neg a,b)$ is always true, because it is an application of the law of total probability.
+  \item $P(a)=P(a|b)+P(a,  \neg b)$ is not correct.   application of the law of total probability would be:  \\$P(a)=P(a|b) *P(b)+P(a,  \neg b)* P(\neg b)$ 
+  \item $P(a, b)=P(a) * P(b)$ This equality is true if and only if events \textit{a} and \textit{b}  are independent. If they are not independent,  $P(a, b)=P(a|b) * P(b)$
+  \item  $P(a,b|c)\cdot P(c)=P(c,a|b) * P(b)$ is always true,.  It is an application of Bayes’ theorem
+  \item $P(a\lor b) = P(a) + P(b)$ 	This equality is not always true.  What if \textit{a} and \textit{b} are overlapped? Hence, $P(a\lor b) = P(a) + P(b) - P(a \land b)$
+  \item  $P(a, \neg b) = (1 - P(b|a)) * P(a)$ is always true,  because  from joint probability  $P(a, \neg b) = P(-b|a) * P(a) (1)$,  and $P(-b|a) = 1 - P(b|a)  (2)$,. Substituting (2) into (1) we have:
+     $P(a, \neg b) = (1 - P(b|a)) * P(a)$
+\end{enumerate}
+\end{document}

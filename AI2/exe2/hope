@@ -1,0 +1,77 @@
+def query(network, node, evidence):
+    """Compute the probability of a node given evidence in a Bayesian network.
+
+    Args:
+        network (dict): The Bayesian network represented as a dictionary of nodes.
+        node (str): The name of the node to compute the probability of.
+        evidence (dict): A dictionary of variable assignments that represent the evidence.
+
+    Returns:
+        float: The probability of the node given the evidence.
+    """
+    from itertools import product
+    # Compute the set of all variables in the network
+    all_vars = set()
+    for node_name, node_net in network.items():
+        all_vars.add(node_name)
+        all_vars.update(node_net["parents"])
+
+    # Compute the set of hidden variables (i.e., all variables not in evidence or the query node)
+    hidden_vars = all_vars.difference(set(evidence.keys()))
+    hidden_vars.remove(node)
+
+    # Initialize the joint distribution table
+    joint_distribution = {}
+
+    # Generate all possible variable assignments for the hidden variables
+    for assignment in product([True, False], repeat=len(hidden_vars)):
+        # Convert the assignment tuple to a dictionary
+        assignment_dict = {var: val for var, val in zip(hidden_vars, assignment)}
+
+        # Create a new evidence dictionary by combining the given evidence with the current assignment
+        query_evidence = evidence.copy()
+        query_evidence.update(assignment_dict)
+
+        # Compute the joint probability of this assignment
+        joint_probability = 1.0
+        for node_name, node in network.items():
+            node_parents = node["parents"]
+            node_probabilities = node["probabilities"]
+
+            if node_name == node:
+                # Compute the probability of the query node given its parents and the evidence
+                parent_assignments = tuple(query_evidence[parent] for parent in node_parents)
+                node_probability = node_probabilities[parent_assignments]
+            elif node_name in query_evidence:
+                # The node is in evidence, so just use its value as a condition
+                node_probability = 1.0 if query_evidence[node_name] == node_probabilities else 0.0
+            else:
+                # The node is not in evidence, so sum over all possible values of its parents
+                parent_assignments = tuple(query_evidence[parent] for parent in node_parents)
+                node_probability = sum(
+                    node_probabilities[parent_assignments + (value,)]
+                    for value in [True, False]
+                )
+
+            # Multiply the joint probability by the probability of this node given its parents and the evidence
+            joint_probability *= node_probability
+
+        # Add the joint probability to the joint distribution table
+        joint_distribution[tuple(query_evidence.items())] = joint_probability
+
+    # Compute the marginal distribution of the query node (by summing over all possible assignments of the hidden variables)
+    marginal_distribution = {}
+    for assignment_dict, joint_probability in joint_distribution.items():
+        query_assignment = assignment_dict[node]
+        if query_assignment in marginal_distribution:
+            marginal_distribution[query_assignment] += joint_probability
+        else:
+            marginal_distribution[query_assignment] = joint_probability
+
+    # Normalize the marginal distribution so that it sums to 1
+    normalization_factor = sum(marginal_distribution.values())
+    for query_assignment in marginal_distribution:
+        marginal_distribution[query_assignment] /= normalization_factor
+
+    # Return the probability of the query node being true given the evidence
+    return marginal_distribution[True] if node in evidence else marginal_distribution[True] + marginal_distribution[False]

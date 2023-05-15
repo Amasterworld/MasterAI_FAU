@@ -1,0 +1,7 @@
+from pattern import Checker
+
+# create checkerboard and display it
+c = Checker(250, 25)
+#c.draw()
+c.show()
+

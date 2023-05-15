@@ -1,0 +1,88 @@
+\documentclass{article}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\begin{document}
+
+\section{Probability Theory}
+
+\begin{definition}[Probability Model $\langle \Omega, P \rangle$]\label{def:prob-model}
+  consists of a countable sample space $\Omega$ and a
+  probability function $P : \Omega \rightarrow [0;1]$,
+  s.t. $\sum_{\omega \in \Omega} P(\omega) = 1$
+\end{definition}
+
+\begin{definition}[Event]\label{def:event}
+  When a random variable $X$ takes on a value $x$.
+\end{definition}
+
+\begin{definition}[Conditional/Posterior
+  Probability]\label{def:cond-prob} The probability
+  \[ P(a \mid b) = \frac{P(a \land b)}{P(b)}, \] i.e.\ the chance that
+  \hyperref[def:event]{event} ``a'' takes place, given the event
+  ``b''.
+\end{definition}
+
+\begin{definition}[Conditional Independence]\label{def:cond-indep}
+  Two \hyperref[def:event]{events} $a$ and $b$ are conditionally
+  independent, if $P(a \land b \mid c) = P(a \mid c) P(b \mid c)$.
+\end{definition}
+
+\begin{definition}[Probability Distribution]\label{def:prob-dist}
+  A vector for $\mathbf{P}(X)$ relating each element of the
+  \hyperref[def:prob-model]{sample space} to a probability:
+  \[ \langle P(\omega_1), \dots, P(\omega_n) \rangle. \] Related
+  concepts:
+  \begin{description}
+  \item[Joint PD]\label{def:jpd} Given
+    $Z \subseteq \{ X_1, \dots, X_n \},$ results in a array the
+    probabilities of all \hyperref[def:event]{events}.
+  \item[Full joint PD]\label{def:fjdp}
+    Joint PD for all random variables.
+  \item[Conditional PD]\label{def:cpd}
+    Given $X$ and $Y$, results in a table for
+    every probability $P(X \mid Y)$.
+  \end{description}
+\end{definition}
+
+\begin{definition}[Product Rule]\label{def:prod-rule}
+  $P(a \land b) = P(a \mid b) P(b)$
+\end{definition}
+
+\begin{definition}[Chain Rule]\label{def:chain-rule} Extension of the
+  \hyperref[def:prod-rule]{product rule},
+  \[
+    P(X_1, \dots, X_n) = P(X_n \mid X_{n-1}, \dots, X_1) \dots P(X_2 |
+    X_1) P(X_1)
+  \]
+\end{definition}
+
+\begin{definition}[Marginalisation]\label{def:margin}
+  $\mathbf{P}(\mathbf{X}) = \sum_{y \in \mathbf{Y}}
+  \mathbf{P}(\mathbf{X}, y)$
+\end{definition}
+
+\begin{definition}[Normalisation]\label{def:normalis}
+  Given $\mathbf{P}(X \mid e)$, and a normalization constant \[
+    \alpha = \frac{1}{ P(x_1 \mid e) + \dots + P(x_n \mid e)}, \]
+  normalization scales each element of the probability distribution
+  s.t. $\sum \alpha \mathbf{P}(X \mid e) = 1$
+\end{definition}
+
+\begin{definition}[Bayes' Rule]\label{def:bayes-rule}
+  Given two propositions $a$ and $b$,
+  \[ P(a \mid b) = \frac{P(b \mid a) P(a)}{P(b)}, \] where
+  $P(a) \neq 0$ and $P(b) \neq 0$.
+\end{definition}
+
+\begin{definition}[Naive Bayes' Model]\label{def:naive-bayes-model}
+  In this model, the \hyperref[def:fjdp]{full joint probability
+    distribution} is
+  \[ \mathbf{P}(c \mid e_1, \dots, e_n) = \mathbf{P}(c) \prod_i
+    \mathbf{P}(e_i \mid c), \] i.e.\ a \emph{single} cause $c$
+  influences a number of \hyperref[def:cond-indep]{cond. independent}
+  effects $e_i$.
+\end{definition}
+
+\end{document}

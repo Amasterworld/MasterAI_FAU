@@ -1,0 +1,38 @@
+\documentclass{article}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\begin{document}
+
+Name: Thao, Nguyen Van.   Id: ic87adyh
+
+\section*{\textbf{I. Problem 2.2 (AFT Tests ))}}
+
+\subsection*{\textbf{2.2.1  Express the four items above in the form of conditional probabilities}}
+ We have:
+ 
+ \begin{align*}
+    P(Down| F=Age_{25})) &= 1/1250\\ & = 0.0008\\
+    P(Down| F=Age_{43})) &= 1/50\\ &= 0.02\\
+    P(Pos| \neg Down) &= 1/100\\ &= 0.01\\
+    P(\neg Pos|  Down) &= 1/100\\ &= 0.01    
+\end{align*}
+
+  \subsection*{\textbf{2.2.2 Using Bayes’ theorem, express and compute the probability that their child has Down syndrome,}}
+ 
+   \begin{align*}
+    P(Down| Pos) &=  \frac{P(Pos| Down)*P(Down)}{ P(Pos)} \\ 
+    						 &=  \frac{( 1 - P(Pos| \neg Down))*P(Down)}{ P(Pos)}\\
+    						 &= \frac{( 1 - P(Pos| \neg Down))*P(Down)}  {P(Pos \land Down) +  P(Pos \land \neg Down)} \\
+    						 &= \frac {( 1 - P(Pos| \neg Down))*P(Down)}   { P(Pos|Down) *P(Down)  + P(Pos| \neg Down) * P(\neg Down) }\\
+    						 &= \frac {( 1 - P(Pos| \neg Down))*P(Down)}   { ( 1 - P(\neg Pos|Down)) *P(Down)  + P(Pos| \neg Down) * P(\neg Down) } \\ 
+    						 &= \frac {( 1 - P(Pos| \neg Down))*P(Down)}   { ( 1 - P(\neg Pos|Down)) *P(Down)  + P(Pos| \neg Down) * (1 - P(Down) } \\    						 
+    						 &= \frac { (1 - 0.01) * (0.0008) }{ (1 - 0.01) * (0.0008) + 0.01 *(1 - 0.0008 )}\\
+    						 &= 0.07344\\
+    						 &=  7,344\%   
+    	\end{align*}
+The result shows that for the pregnant mother aged 25,  if the test return positive,  there is only 7.344 \% chance that her child actually has down syndrome.
+
+ 
+\end{document}

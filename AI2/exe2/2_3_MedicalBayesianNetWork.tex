@@ -1,0 +1,23 @@
+\documentclass{article}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\begin{document}
+
+Name: Thao, Nguyen Van.   Id: ic87adyh
+
+\subsection*{\textbf{2.3 (Medical Bayesian Network)}}
+    \subsection*{\textbf{2.3.1  The purpose of the edges in the network regarding the conditional probability table. }}1
+    The edges in the Bayesian network represent the conditional dependencies between the variables. In this problem,  the edges indicate that tmhe probability of a patient having a fever (Fev) depends on whether they have malaria (Mal) or meningitis (Men), and the probability of a patient having a high body temperature (HBT) depends on whether they have a fever (Fev).
+    
+     \subsection*{\textbf{2.3.2  What would have happened if we had constructed the network using the variable order MAL, Men,  HBT,  Fev? Would that have led to a better network?}}
+     The answer is obvious that it does not led to a better network. Because the order of variables can affect the structure of the network and the conditional probability tables.  Now we analyse  the network that had been constructed using the variable order Mal, Men, HBT, Fev, would have led the following network structure:  
+     
+     \begin{align*}     
+     Mal \rightarrow   HBT \rightarrow Fev\\
+     Men \rightarrow HBT \rightarrow Fev
+	\end{align*}
+	 
+	 In the above structures: HBT  becomes a parent node of Fev. This means that the probability of having a fever would depend only on the presence of HBT,  and not on the presence of Mal or meningitis. This would not be an accurate representation of the situation, since both Mal and Men can cause a fever. Therefore, the original network structure is better.
+\end{document}
