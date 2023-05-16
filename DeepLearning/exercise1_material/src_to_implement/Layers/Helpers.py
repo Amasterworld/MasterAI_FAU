@@ -75,9 +75,7 @@ def gradient_check_weights(layers, input_tensor, label_tensor, bias):
         else:
             
             analytical_derivative = layers[0].gradient_weights
-        
-        print("weights = ", weights.shape)
-        print("analytical_derivative = ", analytical_derivative.shape)
+
         analytical_derivative = analytical_derivative[it.multi_index]
 
         if bias:

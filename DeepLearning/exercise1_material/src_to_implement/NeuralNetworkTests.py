@@ -9,8 +9,9 @@ import argparse
 
 ID = 1  # identifier for dispatcher
 
+
 class TestFullyConnected1(unittest.TestCase):
-    print("TestFullyConnected1")
+
     def setUp(self):
         self.batch_size = 9
         self.input_size = 4
@@ -29,7 +30,8 @@ class TestFullyConnected1(unittest.TestCase):
 
     def test_weights_size(self):
         layer = FullyConnected.FullyConnected(self.input_size, self.output_size)
-        self.assertTrue((layer.weights.shape) in ((self.input_size + 1, self.output_size), (self.output_size, self.input_size + 1)))
+        self.assertTrue(
+            (layer.weights.shape) in ((self.input_size + 1, self.output_size), (self.output_size, self.input_size + 1)))
 
     def test_forward_size(self):
         layer = FullyConnected.FullyConnected(self.input_size, self.output_size)
@@ -186,8 +188,9 @@ class TestReLU(unittest.TestCase):
         difference = Helpers.gradient_check(layers, input_tensor, self.label_tensor)
         self.assertLessEqual(np.sum(difference), 1e-5,
                              msg="Possible error: The derivative of the ReLU function is not correctly implemented. Please"
-                             " refer to the lecture slides for the correct derivative. Hint: you may need the input "
-                             "tensor X of the forward pass also in the backward pass...")
+                                 " refer to the lecture slides for the correct derivative. Hint: you may need the input "
+                                 "tensor X of the forward pass also in the backward pass...")
+
 
 class TestSoftMax(unittest.TestCase):
 
@@ -262,7 +265,7 @@ class TestSoftMax(unittest.TestCase):
         error = layer.backward(error)
         # test if every wrong class confidence is decreased
         for element in error[self.label_tensor == 0]:
-            self.assertAlmostEqual(element, 1/3, places = 3,
+            self.assertAlmostEqual(element, 1 / 3, places=3,
                                    msg="Possible error: The derivative of the ReLU function is not correctly implemented."
                                        " The class confidence for wrong predicted lables is not decreased in the backward function."
                                        " Please refer to the lecture slides for help. Hint: You may need the output tensor "
@@ -272,14 +275,13 @@ class TestSoftMax(unittest.TestCase):
 
         # test if every correct class confidence is increased
         for element in error[self.label_tensor == 1]:
-            self.assertAlmostEqual(element, -1, places = 3,
+            self.assertAlmostEqual(element, -1, places=3,
                                    msg="Possible error: The derivative of the ReLU function is not correctly implemented."
                                        " The class confidence for correct predicted lables is not increased in the backward function."
                                        " Please refer to the lecture slides for help. Hint: You may need the output tensor "
                                        "Y from the forward pass also in the backward pass."
                                        "The test also fails if the CrossEntropyLoss() function is not yet or wrong implemented."
                                    )
-
 
     def test_regression_forward(self):
         np.random.seed(1337)
@@ -293,10 +295,9 @@ class TestSoftMax(unittest.TestCase):
         # just see if it's bigger then zero
         self.assertGreater(float(loss), 0.,
                            msg="Possible error: The forward function is not implemented correctly. Please refer to the "
-                            "lecture slides for help. Hint: The output of the SoftMax function corresponds to a "
-                            "probability distribution to with the probabilities for each label (usually) in a"
-                            " classification task. So, check if the sum of the output is equal to 1!")
-
+                               "lecture slides for help. Hint: The output of the SoftMax function corresponds to a "
+                               "probability distribution to with the probabilities for each label (usually) in a"
+                               " classification task. So, check if the sum of the output is equal to 1!")
 
     def test_regression_backward(self):
         input_tensor = np.abs(np.random.random(self.label_tensor.shape))
@@ -327,6 +328,8 @@ class TestSoftMax(unittest.TestCase):
 
     def test_gradient(self):
         input_tensor = np.abs(np.random.random(self.label_tensor.shape))
+
+
         layers = list()
         layers.append(SoftMax.SoftMax())
         layers.append(L2Loss())
@@ -334,7 +337,7 @@ class TestSoftMax(unittest.TestCase):
         self.assertLessEqual(np.sum(difference), 1e-5,
                              msg="Possible error: The derivative of the ReLU function is not correctly implemented."
                                  " Please refer to the lecture slides for help. Hint: You may need the output tensor "
-                                        "Y from the forward pass also in the backward pass. Also make sure to do the "
+                                 "Y from the forward pass also in the backward pass. Also make sure to do the "
                                  "necessary summation in the backward pass over the right axis."
                              )
 
@@ -398,7 +401,7 @@ class TestCrossEntropyLoss(unittest.TestCase):
         input_tensor[:, 1] = 1
         layer = Loss.CrossEntropyLoss()
         loss = layer.forward(input_tensor, label_tensor)
-        self.assertAlmostEqual(loss, 324.3928805, places = 4,
+        self.assertAlmostEqual(loss, 324.3928805, places=4,
                                msg="Possible error: The forward function is not correctly implemented. Please refer to "
                                    "the lecture slides for the correct function. Hint: the label has to be multiplied"
                                    " with the negative log of the prediction -ylog(y')."
@@ -519,12 +522,13 @@ class L2Loss:
         return np.sum(np.square(input_tensor - label_tensor))
 
     def backward(self, label_tensor):
-        return 2*np.subtract(self.input_tensor, label_tensor)
+        return 2 * np.subtract(self.input_tensor, label_tensor)
 
 
 if __name__ == '__main__':
 
     import sys
+
     if sys.argv[-1] == "Bonus":
         loader = unittest.TestLoader()
         bonus_points = {}
@@ -539,14 +543,18 @@ if __name__ == '__main__':
                 bonus_points.update({t.__name__: ["FAIL", p]})
 
         import time
+
         time.sleep(1)
         print("=========================== Statistics ===============================")
         exam_percentage = 1.5
         table = []
         for i, (k, (outcome, p)) in enumerate(bonus_points.items()):
-            table.append([i, k, outcome, "0 / {} (%)".format(p) if outcome == "FAIL" else "{} / {} (%)".format(p, p), "{:.3f} / 10 (%)".format(p/100 * exam_percentage)])
+            table.append([i, k, outcome, "0 / {} (%)".format(p) if outcome == "FAIL" else "{} / {} (%)".format(p, p),
+                          "{:.3f} / 10 (%)".format(p / 100 * exam_percentage)])
         table.append([])
-        table.append(["Ex1", "Total Achieved", "", "{} / 100 (%)".format(total_points), "{:.3f} / 10 (%)".format(total_points * exam_percentage / 100)])
-        print(tabulate.tabulate(table, headers=['Pos', 'Test', "Result", 'Percent in Exercise', 'Percent in Exam'], tablefmt="github"))
+        table.append(["Ex1", "Total Achieved", "", "{} / 100 (%)".format(total_points),
+                      "{:.3f} / 10 (%)".format(total_points * exam_percentage / 100)])
+        print(tabulate.tabulate(table, headers=['Pos', 'Test', "Result", 'Percent in Exercise', 'Percent in Exam'],
+                                tablefmt="github"))
     else:
         unittest.main()
