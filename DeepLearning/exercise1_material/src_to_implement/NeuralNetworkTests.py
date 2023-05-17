@@ -461,6 +461,7 @@ class TestNeuralNetwork1(unittest.TestCase):
         out = net.forward()
         out2 = net.forward()
 
+        # self.assertFalse((out == out2).any(), msg="The arrays out and out2 are equal.")
         self.assertNotEqual(out, out2,
                             msg="Possible error: The Neural Network hat no access to the provided data. Make sure to "
                                 "create an attribute data_layer in the constructor. Additionally, make sure that the "
