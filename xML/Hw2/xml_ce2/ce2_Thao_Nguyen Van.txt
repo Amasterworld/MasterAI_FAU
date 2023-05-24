@@ -1,0 +1,1 @@
+{"FIRST_NAME": "Thao", "SECOND_NAME": "Nguyen Van", "IDM": "ic87adyh", "secrets": {"ex_2_1": "9c1780ae62e3ed5119dc1fc530e202d5693211f33ab7319c7c67f41630a3acf5"}}
