@@ -2,11 +2,17 @@
 import numpy as np
 
 class Optimizer:
-    def  __init__(self):
+    def __init__(self):
         self.regularizer = None
+
     def add_regularizer(self, regularizer):
         self.regularizer = regularizer
 
+    def get_regularization_term(self, weights):
+        if self.regularizer is not None:
+            return self.regularizer.norm(weights)
+        else:
+            return 0
 """"
 to easy to understand: in the unittest:
         optimizer = Optimizers.Sgd(2)
@@ -118,13 +124,14 @@ class Adam(Optimizer):
 
     def calculate_update_bias(self, weight_tensor, gradient_tensor):
 
-        self.v = self.mu * self.v + (1 - self.mu) * gradient_tensor
-        self.r = self.rho * self.r + (1 - self.rho) * gradient_tensor ** 2
+        self.v_b = self.mu * self.v_b + (1 - self.mu) * gradient_tensor
 
-        v_ = self.v / (1 - self.mu ** self.k)
-        r_ = self.r / (1 - self.rho ** self.k)
+        self.r_b = self.rho * self.r_b + (1 - self.rho) * gradient_tensor ** 2
 
-        self.k += 1
+        v_ = self.v_b / (1 - self.mu ** self.k)
+        r_ = self.r_b / (1 - self.rho ** self.k)
+
+        self.t += 1
         if self.regularizer is not None:
             regularization_gradient = self.regularizer.calculate_gradient(weight_tensor)
 

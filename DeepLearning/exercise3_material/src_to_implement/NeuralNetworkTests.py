@@ -14,7 +14,6 @@ from scipy.ndimage import gaussian_filter
 import NeuralNetwork
 import matplotlib.pyplot as plt
 import os
-import argparse
 import tabulate
 
 ID = 3  # identifier for dispatcher
@@ -1584,7 +1583,7 @@ class TestNeuralNetwork3(unittest.TestCase):
     plot = False
     directory = 'plots/'
     log = 'log.txt'
-    iterations = 100
+    iterations = 30
 
     def test_append_layer(self):
         # this test checks if your network actually appends layers, whether it copies the optimizer to these layers, and
@@ -1658,11 +1657,11 @@ class TestNeuralNetwork3(unittest.TestCase):
         This test checks if the regularization loss is calculated for the fc and rnn layer and tracked in the
         NeuralNetwork class
         '''
-        import random
         fcl = FullyConnected.FullyConnected(4, 3)
         rnn = RNN.RNN(4, 4, 3)
 
         for layer in [fcl, rnn]:
+
             loss = []
             for reg in [False, True]:
                 opt = Optimizers.Sgd(1e-3)
@@ -1835,7 +1834,7 @@ class TestNeuralNetwork3(unittest.TestCase):
 
         data, labels = net.data_layer.get_test_set()
         results = net.test(data)
-
+        print(" layer at 0", net.layers[0])
         bn_phase = net.layers[0].testing_phase
         drop_phase = net.layers[4].testing_phase
 

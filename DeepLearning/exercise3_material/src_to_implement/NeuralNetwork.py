@@ -1,6 +1,4 @@
 import copy  # for deepcopy
-import numpy as np
-
 
 
 class NeuralNetwork:
@@ -24,7 +22,13 @@ class NeuralNetwork:
         self.input_tensor, self.label_tensor = self.data_layer.next()
         output_tensor = self.input_tensor
         for layer in self.layers:
-            output_tensor = layer.forward(output_tensor)
+
+            if self._phase:
+                if hasattr(layer, 'testing_phase'):
+                    layer.testing_phase = True
+                output_tensor = layer.forward(output_tensor)
+            else:
+                output_tensor = layer.forward(output_tensor)
         loss_output = self.loss_layer.forward(output_tensor, self.label_tensor)
         return loss_output
 
@@ -45,6 +49,10 @@ class NeuralNetwork:
         for i in range(iterations):
             # Perform forward pass
             output = self.forward()
+            for layer in self.layers:
+                # if the layer has the calculate_regularization_loss method, call it and add it to the loss
+                if hasattr(layer, 'calculate_regularization_loss'):
+                    output += layer.calculate_regularization_loss()
             # Calculate loss and store it
             self.loss.append(output)
 

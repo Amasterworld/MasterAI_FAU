@@ -1,11 +1,12 @@
 """
 Batch Normalization: what it is ? and why do we need it?
 
-Batch Normalization layer can be applied to both convolutional layers (which produce image-like tensors 4D) and fully connected layers (which produce vector-like tensors 2D).
+Batch Normalization layer can be applied to both convolutional layers (which produce image-like tensors 4D) and fully connected layers
+(which produce vector-like tensors 2D).
 """
 
-from Layers.Base import BaseLayer
 import numpy as np
+from Layers.Base import BaseLayer
 
 
 class BatchNormalization(BaseLayer):
@@ -25,7 +26,7 @@ class BatchNormalization(BaseLayer):
         # for test update
         self._optimizer = None
 
-    def initialize(self):
+    def initialize(self, weights_initializer=1, bias_initializer=1):
         if self.channels is None:
             self.weights = np.ones(())
             self.bias = np.zeros(())
@@ -35,18 +36,17 @@ class BatchNormalization(BaseLayer):
 
     def forward(self, input_tensor):
 
-        #self.input_tensor = input_tensor
+        # self.input_tensor = input_tensor
         if input_tensor.ndim == 4:  # Image-like tensor
 
             self.input_tensor_shape = input_tensor.shape
-            #batch_size, channels, height, width  = input_tensor.shape
+            # batch_size, channels, height, width  = input_tensor.shape
             reformat_input_tensor = self.reformat(input_tensor)  # Convert to vector-like tensor
 
 
         else:
             reformat_input_tensor = input_tensor
         self.input_tensor = reformat_input_tensor
-
 
         if self.weights is None or self.bias is None:  # Initialize gamma and beta if not already initialized
             self.initialize()
@@ -57,14 +57,14 @@ class BatchNormalization(BaseLayer):
         # if testing phase is True then assign mean and var to self.running_mean and self.running_var
         #  self.running_mean and self.running_var are calculated in the training phase
         # Therefore in the testing phease mean and var are constant
-        if self.testing_phase:
+        if self.testing_phase and self.running_mean is not None and self.running_var is not None:
             # Use running mean and variance during testing phase
             mean = self.running_mean
             var = self.running_var
         else:
             # Update running mean and variance using moving average estimation
             momentum = 0.8
-        # in the training phase update self.running_mean and self.running_var
+            # in the training phase update self.running_mean and self.running_var
             if self.running_mean is None:
                 self.running_mean = mean
             else:
@@ -98,7 +98,7 @@ class BatchNormalization(BaseLayer):
         std_inv = 1.0 / np.sqrt(var + self.eps)
         normalized = (self.input_tensor - mean) * std_inv
 
-        m = error_tensor.shape[0] # batch* height* width?
+        m = error_tensor.shape[0]  # batch* height* width?
 
         # Compute gradients w.r.t. gamma and beta
         self.gradient_weights = np.sum(error_tensor * normalized, axis=0)
@@ -117,18 +117,19 @@ class BatchNormalization(BaseLayer):
         if len(error_tensor_shape) == 4:
             input_gradient = self.reformat(input_gradient)
 
-
         return input_gradient
 
     def reformat(self, tensor):
         if tensor.ndim == 4:  # Image-like tensor
-            batch_size, channels , height, width  = tensor.shape
+            batch_size, channels, height, width = tensor.shape
 
-            tensor = tensor.transpose((0, 2, 3, 1)).reshape(batch_size * height * width, channels)  # Reshape to B · M · N × H
+            tensor = tensor.transpose((0, 2, 3, 1)).reshape(batch_size * height * width,
+                                                            channels)  # Reshape to B · M · N × H
         elif tensor.ndim == 2:  # Vector-like tensor
             # Calculate the height and width dimensions based on the number of channels
 
-            tensor = tensor.reshape(self.input_tensor_shape[0], self.input_tensor_shape[2],  self.input_tensor_shape[3], self.input_tensor_shape[1]).transpose(0, 3, 1, 2)  # Reshape to B × H × M × N
+            tensor = tensor.reshape(self.input_tensor_shape[0], self.input_tensor_shape[2], self.input_tensor_shape[3],
+                                    self.input_tensor_shape[1]).transpose(0, 3, 1, 2)  # Reshape to B × H × M × N
         else:
             raise ValueError("Invalid tensor shape")
 

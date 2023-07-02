@@ -1,7 +1,6 @@
-from Layers.Base import BaseLayer
 # from Optimization.Optimizers import Sgd
 import numpy as np
-import copy
+from Layers.Base import BaseLayer
 
 
 class FullyConnected(BaseLayer):
@@ -32,7 +31,9 @@ class FullyConnected(BaseLayer):
 		#print("self.weight shape ", self.weights.shape)
 		bias = np.ones((input_tensor.shape[0], 1))
 		input_tensor = np.hstack((input_tensor, bias))
+
 		self._input_tensor = input_tensor.copy()
+
 		#print("input_tensor shape ", self.input_tensor.shape)
 		return input_tensor @ self.weights
 
@@ -51,6 +52,12 @@ class FullyConnected(BaseLayer):
 		prev_error_tensor = error_tensor @ self.weights.T[:, :-1]
 
 		return prev_error_tensor
+
+	def calculate_regularization_loss(self):
+		# get the regularization term from the optimizer
+		regularization_term = self.optimizer.get_regularization_term(self.weights)
+		# return the regularization loss as half of the regularization term
+		return 0.5 * regularization_term
 
 	@property
 	def gradient_weights(self):
