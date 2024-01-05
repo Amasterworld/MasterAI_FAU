@@ -23,14 +23,19 @@ class NeuralNetwork:
     def forward(self):
 
         self.input_tensor, self.label_tensor = self.data_layer.next()
+        # 
         output_tensor = self.input_tensor
+        # traverse the layer in the given layers, note that layers are added to self.layers by method: append_layer
         for layer in self.layers:
+            # the output_tensor of the current layer is the input of the next layer.
             output_tensor = layer.forward(output_tensor)
+         # calculate the loss by using self.label_tensor - the output of the last layers in the forward process
         loss_output = self.loss_layer.forward(output_tensor, self.label_tensor)
         return loss_output
 
     def backward(self):
-        # label_tensor = self.label_tensor
+        # the initial error_tensor is calculating  by self.label_tensor and the last output_tensor from the forward process
+        # See the Loss layer
         error_tensor = self.loss_layer.backward(self.label_tensor)
         for layer in reversed(self.layers):
             error_tensor = layer.backward(error_tensor)
